@@ -34,6 +34,14 @@ const TaskModal = ({ showModal, setShowModal, addTask }) => {
     setValidated(false);
   };
 
+  const deleteImageHandler = (imageIndex) => {
+    //need to fix a bug in clearing last image in preview
+    //it tries to submit the form on deleting last image and there fails the validation checks
+    //or submits the form
+    let newImageUrls = imageUrls.splice(imageIndex, 1);
+    setImageUrls(newImageUrls);
+  };
+
   const taskTitleChangeHandler = (event) => {
     setTaskDetails({ ...taskDetails, title: event.target.value });
   };
@@ -48,31 +56,23 @@ const TaskModal = ({ showModal, setShowModal, addTask }) => {
 
   const handleChange = (event) => {
     setImageUrls([...imageUrls, URL.createObjectURL(event.target.files[0])]);
-    //setTaskDetails({ ...taskDetails, supportingImages: imageUrls });
   };
 
   const handleSubmit = (event) => {
     setTaskDetails({ ...taskDetails, supportingImages: imageUrls });
 
     const form = event.currentTarget;
-    console.log("derd submit", taskDetails);
-    console.log("derd, handlesubmit", form.checkValidity());
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      console.log("derd valid true", taskDetails);
       addTask(taskDetails);
       setTaskDetails(initialTaskDetails);
       handleClose();
     }
     setValidated(true);
-    console.log("submit event", event);
-    console.log("submit event", taskDetails);
   };
 
-  console.log("derd shw", taskDetails);
-  console.log("derd shw", imageUrls);
   return (
     <Modal show={showModal} onHide={handleClose}>
       <div className={"ModalHeader"}>
@@ -84,7 +84,7 @@ const TaskModal = ({ showModal, setShowModal, addTask }) => {
           Please enter you task details in the below fields
         </Modal.Body>
 
-        <div>
+        <div className={"ModalBody"}>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group controlId="formBasic1">
               <Form.Label>Task Title *</Form.Label>
@@ -114,7 +114,7 @@ const TaskModal = ({ showModal, setShowModal, addTask }) => {
             </Form.Group>
 
             <Form.Group controlId="formBasic2">
-              <Form.Label>Supporting Images </Form.Label>
+              <Form.Label>Due Date </Form.Label>
               <Form.Control
                 type="date"
                 placeholder={`Due Date`}
@@ -122,35 +122,37 @@ const TaskModal = ({ showModal, setShowModal, addTask }) => {
                 onChange={(e) => taskDueDateChangeHandler(e)}
                 required
               />
-              <Form.Control.Feedback type="invalid">
-                Please provide a valid task description.
-              </Form.Control.Feedback>
             </Form.Group>
 
-            {/*<DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-            />*/}
-
-            {/*<Form onSubmit={handleSubmit}>*/}
-            <Form.Group controlId="formBasic2">
+            <Form.Group controlId="formBasic3">
               <Form.Label>Supporting Images </Form.Label>
-              <div>
+              <div className={"ThumbnailContainer"}>
                 {imageUrls.length > 0
-                  ? imageUrls.map((image) => (
-                      <img
-                        style={{ height: "40px", width: "40px" }}
-                        src={image}
-                        alt={image}
-                      />
+                  ? imageUrls.map((image, index) => (
+                      <>
+                        <img
+                          key={`img ${index}`}
+                          style={{
+                            height: "50px",
+                            width: "50px",
+                            marginRight: "10px",
+                          }}
+                          src={image}
+                          alt={image}
+                        />
+                        <button
+                          key={`button ${index}`}
+                          className={"ThumbnailButton"}
+                          onClick={() => deleteImageHandler(index)}
+                        >
+                          X
+                        </button>
+                      </>
                     ))
                   : null}
               </div>
 
               <input type="file" onChange={handleChange} />
-              <Form.Control.Feedback type="invalid">
-                Please provide a valid Image type.
-              </Form.Control.Feedback>
             </Form.Group>
 
             <Modal.Footer>

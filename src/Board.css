@@ -29,9 +29,31 @@
   top: 10%;
 }
 
-.ModalHeader {
-  /*}> div:nth-child(1) {*/
+.ModalHeader > div:nth-child(1) {
   background-color: #007bff;
+}
+
+.ModalBody {
+  padding: 10px;
+}
+
+.ThumbnailContainer {
+  height: 70px;
+  position: relative;
+  padding: 10px;
+}
+.ThumbnailButton {
+  height: 50px;
+  width: 50px;
+  left: -60px;
+  position: relative;
+  opacity: 0;
+  border: none;
+}
+.ThumbnailButton:hover {
+  color: red;
+  background-color: pink;
+  opacity: 0.7;
 }
 
 @media (max-width: 900px) {

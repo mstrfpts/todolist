@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLocalStorage } from "./CustomHooks";
 import TaskModal from "./TaskModal";
+import "./Board.css";
 
 const Board = () => {
   const [showModal, setShowModal] = useState(false);
