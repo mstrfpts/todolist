@@ -1,17 +1,25 @@
 .RootContainer {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+}
+
+.TaskContainer {
+  max-height: 70vh;
+  overflow-y: auto;
 }
 
 .AddButton {
   position: absolute;
-  top: 20%;
+  top: 80%;
   left: 46%;
+  /*margin-top: 70%;
+  margin-left: 40%;*/
   height: 50px;
   width: 50px;
   border-radius: 50%;
   border: none;
-  background-color: slategray;
+  background-color: darkgrey;
 }
 .AddButton {
   transition: all 0.3s ease-in-out;
@@ -21,12 +29,35 @@
 }
 .AddButton:hover {
   transform: scale(1.5);
+  background-color: slategrey;
 }
 
 .NoTasksMessage {
   position: absolute;
   left: 38%;
   top: 10%;
+}
+
+.Task {
+  background-color: azure;
+  border-radius: 6px;
+  padding: 6px;
+  min-width: 300px;
+  margin: 8px;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0px 0px 2px #888888;
+}
+
+.Task:hover {
+  color: darkblue;
+  cursor: pointer;
+  border: 1px solid black;
+  box-shadow: 0px 2px 8px #888888;
+}
+
+.TaskTitle {
+  font-weight: 600;
 }
 
 .ModalHeader > div:nth-child(1) {
