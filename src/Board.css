@@ -1,0 +1,53 @@
+.RootContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.AddButton {
+  position: absolute;
+  top: 20%;
+  left: 46%;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: none;
+  background-color: slategray;
+}
+.AddButton {
+  transition: all 0.3s ease-in-out;
+}
+.AddButton:focus {
+  outline: none;
+}
+.AddButton:hover {
+  transform: scale(1.5);
+}
+
+.NoTasksMessage {
+  position: absolute;
+  left: 38%;
+  top: 10%;
+}
+
+.ModalHeader {
+  /*}> div:nth-child(1) {*/
+  background-color: #007bff;
+}
+
+@media (max-width: 900px) {
+  .NoTasksMessage {
+    left: 36%;
+  }
+}
+
+@media (max-width: 540px) {
+  .NoTasksMessage {
+    left: 32%;
+  }
+}
+
+@media (max-width: 400px) {
+  .NoTasksMessage {
+    left: 28%;
+  }
+}

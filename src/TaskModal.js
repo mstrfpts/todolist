@@ -135,6 +135,18 @@ const TaskModal = ({ showModal, setShowModal, addTask }) => {
             {/*<Form onSubmit={handleSubmit}>*/}
             <Form.Group controlId="formBasic2">
               <Form.Label>Supporting Images </Form.Label>
+              <div>
+                {imageUrls.length > 0
+                  ? imageUrls.map((image) => (
+                      <img
+                        style={{ height: "40px", width: "40px" }}
+                        src={image}
+                        alt={image}
+                      />
+                    ))
+                  : null}
+              </div>
+
               <input type="file" onChange={handleChange} />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid Image type.
