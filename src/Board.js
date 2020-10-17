@@ -10,6 +10,7 @@ const Board = () => {
   };
 
   const AddTask = (task) => {
+    console.log("derd task", task);
     let newTask = {
       ...task,
       id: findFreeId(taskList),
