@@ -11,7 +11,6 @@ const Board = () => {
   };
 
   const AddTask = (task) => {
-    console.log("derd task", task);
     let newTask = {
       ...task,
       id: findFreeId(taskList),
@@ -33,12 +32,50 @@ const Board = () => {
     return previousId + 1;
   };
 
+  const TaskCards = () => {
+    return taskList.map((task, index) => (
+      <div
+        key={index}
+        /*onClick={() => updateTaskHandler(task)}*/
+        className={"Task"}
+      >
+        <div className={"TaskTitle"}>{task.title}</div>
+        <div className={"TaskDesc"}>{task.description}</div>
+        {task.supportingImages.length > 0 ? (
+          <img
+            src={task.supportingImages[0]}
+            alt={task.supportingImages[0]}
+            style={{
+              height: "50px",
+              width: "50px",
+              marginRight: "10px",
+            }}
+          />
+        ) : null}
+        {/*<button
+          className={"TaskClose"}
+          onClick={() => taskDeleteHandler(task.id)}
+        >
+          x
+        </button>*/}
+      </div>
+    ));
+  };
+
+  console.log("derd, tasks", taskList);
+
   return (
     <div className={"RootContainer"}>
+      <div className={"TaskContainer"}>
+        {taskList.length > 0 ? (
+          <TaskCards />
+        ) : (
+          <div className={"NoTasksMessage"}>
+            <span>No Tasks, time to add some!</span>
+          </div>
+        )}
+      </div>
       <div>
-        <div className={"NoTasksMessage"}>
-          <span>No Tasks, time to add some!</span>
-        </div>
         <button className={"AddButton"} onClick={handleAddTask}>
           +
         </button>
