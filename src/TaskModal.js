@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Form, Modal, Button } from "react-bootstrap";
 
-const TaskModal = ({ showModal, setShowModal, addTask }) => {
+const TaskModal = ({ showModal, setShowModal, addTask, getTimeStamp }) => {
   const [imageUrls, setImageUrls] = useState([]);
   const [validated, setValidated] = useState(false);
   //const [startDate, setStartDate] = useState(new Date());
-
-  const getTimeStamp = () => {
-    return `${new Date().getYear() + 1900}-${
-      new Date().getMonth() + 1
-    }-${new Date().getDate()}`;
-  };
 
   useEffect(() => {
     setTaskDetails({ ...taskDetails, supportingImages: imageUrls });

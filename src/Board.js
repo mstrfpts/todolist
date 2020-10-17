@@ -32,6 +32,24 @@ const Board = () => {
     return previousId + 1;
   };
 
+  const getTimeStamp = () => {
+    return `${new Date().getYear() + 1900}-${
+      new Date().getMonth() + 1
+    }-${new Date().getDate()}`;
+  };
+
+  const getDaysRemaining = (dueDate) => {
+    let getDaysRemaining =
+      (new Date(dueDate).valueOf() - new Date(getTimeStamp()).valueOf()) /
+      86400000;
+    let daysString = getDaysRemaining === 1 ? "day" : "days";
+    if (getDaysRemaining > 0) {
+      return `${getDaysRemaining} ${daysString} to go`;
+    } else {
+      return `${getDaysRemaining * -1} ${daysString} Overdue!!!`;
+    }
+  };
+
   const TaskCards = () => {
     return taskList.map((task, index) => (
       <div
@@ -39,7 +57,9 @@ const Board = () => {
         /*onClick={() => updateTaskHandler(task)}*/
         className={"Task"}
       >
-        <div className={"TaskTitle"}>{task.title}</div>
+        <div className={"TaskTitle"}>{`${task.title}  -  ${getDaysRemaining(
+          task.dueDate
+        )}`}</div>
         <div className={"TaskDesc"}>{task.description}</div>
         {task.supportingImages.length > 0 ? (
           <img
@@ -84,6 +104,7 @@ const Board = () => {
         showModal={showModal}
         setShowModal={setShowModal}
         addTask={AddTask}
+        getTimeStamp={getTimeStamp}
       />
     </div>
   );
