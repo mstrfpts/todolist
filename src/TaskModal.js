@@ -4,7 +4,7 @@ import { Form, Modal, Button } from "react-bootstrap";
 const TaskModal = ({ showModal, setShowModal, addTask }) => {
   const [imageUrls, setImageUrls] = useState([]);
   const [validated, setValidated] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
+  //const [startDate, setStartDate] = useState(new Date());
 
   const getTimeStamp = () => {
     return `${new Date().getYear() + 1900}-${
@@ -13,10 +13,7 @@ const TaskModal = ({ showModal, setShowModal, addTask }) => {
   };
 
   useEffect(() => {
-    console.log("derd, imageurls", imageUrls);
-    console.log("derd, imageurls", taskDetails);
     setTaskDetails({ ...taskDetails, supportingImages: imageUrls });
-    console.log("derd, imageurls", imageUrls);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageUrls]);
 
