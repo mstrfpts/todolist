@@ -39,7 +39,7 @@
 }
 
 .Task {
-  background-color: azure;
+  background-color: #b9cece;
   border-radius: 6px;
   padding: 6px;
   min-width: 300px;
@@ -58,6 +58,14 @@
 
 .TaskTitle {
   font-weight: 600;
+}
+
+.TaskToday {
+  background-color: #f9d176;
+}
+
+.TaskOverdue {
+  background-color: #ea4c4c;
 }
 
 .ModalHeader > div:nth-child(1) {
