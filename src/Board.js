@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocalStorage } from "./CustomHooks";
 import AddTaskModal from "./AddTaskModal";
 import TaskModal from "./TaskModal";
@@ -9,11 +9,18 @@ const Board = () => {
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [newTask, setNewTask] = useState(false);
   const [taskToBeUpdated, setTaskToBeUpdated] = useState();
-  const [taskList, setTaskList] = useLocalStorage("taskList", []); //useState([]);
+  const [taskList, setTaskList] = useLocalStorage("taskList", []);
+  const [searchString, setSearchString] = useState("");
+  const [filteredTaskList, setFilteredTaskList] = useState(taskList);
   const handleAddTask = () => {
     setShowAddTaskModal(true);
     setNewTask(true);
   };
+
+  useEffect(() => {
+    searchHandler();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchString]);
 
   const addTask = (task) => {
     let newTask = {
@@ -58,6 +65,20 @@ const Board = () => {
       (new Date(dueDate).valueOf() - new Date(getTimeStamp()).valueOf()) /
       86400000
     );
+  };
+
+  const searchHandler = () => {
+    if (searchString !== "") {
+      let filteredData = taskList.filter((task) => {
+        return (
+          task.title.toLowerCase().includes(searchString) ||
+          task.description.toLowerCase().includes(searchString)
+        );
+      });
+      setFilteredTaskList(filteredData);
+    } else {
+      setFilteredTaskList(taskList);
+    }
   };
 
   const getDueDateString = (dueDate) => {
@@ -117,7 +138,7 @@ const Board = () => {
   };
 
   const TaskCards = () => {
-    return taskList.map((task, index) => {
+    return filteredTaskList.map((task, index) => {
       return (
         <div
           key={index}
@@ -183,6 +204,12 @@ const Board = () => {
 
   return (
     <div className={"RootContainer"}>
+      <input
+        className={"BoardInput"}
+        onChange={(e) => setSearchString(e.target.value)}
+        value={searchString}
+        placeholder={"Search Task"}
+      ></input>
       <div className={"TaskContainer"}>
         {taskList.length > 0 ? (
           <TaskCards />
