@@ -2,8 +2,17 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-width: 600px;
 }
 
+.Navbar {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  padding-left: 10px;
+  background-color: lightsteelblue;
+  width: 70px;
+}
 .TaskContainer {
   max-height: 70vh;
   overflow-y: auto;
@@ -88,6 +97,10 @@
 
 .BoardInput {
   margin: 10px;
+}
+
+.HomePage {
+  display: flex;
 }
 
 .TaskDetails {

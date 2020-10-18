@@ -1,13 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Board from "./Board";
+import App from "./App";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Root = () => {
   return (
-    <div>
-      <Board />
-    </div>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   );
 };
 
