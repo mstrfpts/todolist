@@ -92,7 +92,7 @@ const Board = () => {
   const setCompleted = (task) => {
     let updatedTaskList = taskList.map((taskCheck) => {
       if (task.id === taskCheck.id) {
-        task.completed = !task.completed;
+        task.complete = !task.complete;
         return task;
       }
       return taskCheck;
