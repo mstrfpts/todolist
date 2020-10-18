@@ -68,6 +68,20 @@
   background-color: #ea4c4c;
 }
 
+.TaskCompleted {
+  position: absolute;
+  right: 50px;
+}
+
+.TaskDetails {
+  height: 20px;
+  width: 50px;
+  margin-right: 5px;
+  font-size: xx-small;
+  padding: 0;
+  border: none;
+}
+
 .ModalHeader > div:nth-child(1) {
   background-color: #007bff;
 }
