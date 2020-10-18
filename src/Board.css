@@ -86,6 +86,10 @@
   margin: 0 2px;
 }
 
+.BoardInput {
+  margin: 10px;
+}
+
 .TaskDetails {
   margin-left: 10px;
   margin-right: 5px;
