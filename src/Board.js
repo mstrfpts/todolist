@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useLocalStorage } from "./CustomHooks";
 import AddTaskModal from "./AddTaskModal";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Board.css";
 
 const Board = () => {
@@ -81,6 +79,16 @@ const Board = () => {
     setShowAddTaskModal(true);
   };
 
+  const deleteTask = (taskId) => {
+    let newTaskList = taskList.filter((task) => task.id !== taskId);
+    setTaskList(newTaskList);
+  };
+
+  const taskDeleteHandler = (taskId) => {
+    setShowAddTaskModal(false);
+    deleteTask(taskId);
+  };
+
   const setCompleted = (task) => {
     let updatedTaskList = taskList.map((taskCheck) => {
       if (task.id === taskCheck.id) {
@@ -104,50 +112,59 @@ const Board = () => {
   };
 
   const TaskCards = () => {
-    return taskList.map((task, index) => (
-      <div
-        key={index}
-        /*onClick={() => editTaskHandler(task)}*/
-        className={overDueCheck(task.dueDate)}
-      >
-        <div className={"TaskTitle"}>
-          {`${task.title}  -  ${getDueDateString(task.dueDate)}`}{" "}
-          <span className={"TaskCompleted"}>
+    return taskList.map((task, index) => {
+      return (
+        <div
+          key={index}
+          /*onClick={() => editTaskHandler(task)}*/
+          className={overDueCheck(task.dueDate)}
+        >
+          <div className={"TaskTitle"}>
+            {`${task.title}  -  ${getDueDateString(task.dueDate)}`}{" "}
+            <label className={"TaskCompleted"}>
+              <button
+                className={"TaskDetails"}
+                onClick={() => editTaskHandler(task)}
+              >
+                details
+              </button>
+              <input
+                className={"TaskCompletedCheckbox"}
+                type="checkbox"
+                checked={task.complete}
+                label={"Completed"}
+                onChange={() => setCompleted(task)}
+              />
+              <span>Completed</span>
+            </label>
             <button
-              className={"TaskDetails"}
-              onClick={() => editTaskHandler(task)}
+              className={"TaskClose"}
+              onClick={() => taskDeleteHandler(task.id)}
             >
-              details
+              x
             </button>
-            <input
-              type="checkbox"
-              checked={task.completed}
-              label={"Completed"}
-              onChange={() => setCompleted(task)}
+          </div>
+          <div className={"TaskDesc"}>{task.description}</div>
+          {task.supportingImages.length > 0 ? (
+            <img
+              src={task.supportingImages[0]}
+              alt={task.supportingImages[0]}
+              style={{
+                height: "50px",
+                width: "50px",
+                marginRight: "10px",
+              }}
             />
-            Completed
-          </span>
-        </div>
-        <div className={"TaskDesc"}>{task.description}</div>
-        {task.supportingImages.length > 0 ? (
-          <img
-            src={task.supportingImages[0]}
-            alt={task.supportingImages[0]}
-            style={{
-              height: "50px",
-              width: "50px",
-              marginRight: "10px",
-            }}
-          />
-        ) : null}
-        {/*<button
+          ) : null}
+          {/*<button
           className={"TaskClose"}
           onClick={() => taskDeleteHandler(task.id)}
         >
           x
         </button>*/}
-      </div>
-    ));
+        </div>
+      );
+    });
   };
 
   return (

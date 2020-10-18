@@ -53,7 +53,7 @@
   color: darkblue;
   cursor: pointer;
   border: 1px solid black;
-  box-shadow: 0px 2px 8px #888888;
+  box-shadow: 0px 2px 2px #888888;
 }
 
 .TaskTitle {
@@ -71,6 +71,13 @@
 .TaskCompleted {
   position: absolute;
   right: 50px;
+  font-size: x-small;
+}
+
+.TaskCompletedCheckbox {
+  position: relative;
+  top: 3px;
+  margin: 0 2px;
 }
 
 .TaskDetails {
@@ -80,6 +87,23 @@
   font-size: xx-small;
   padding: 0;
   border: none;
+}
+
+.TaskClose {
+  position: absolute;
+  right: 10px;
+  vertical-align: top;
+  border-radius: 50%;
+  top: 1px;
+  right: 2px;
+  border: 1px solid pink;
+}
+
+.TaskClose:hover {
+  color: darkred;
+  font-weight: bolder;
+  border: 1px solid purple;
+  width: 22.5px;
 }
 
 .ModalHeader > div:nth-child(1) {
