@@ -140,7 +140,7 @@ const AddTaskModal = ({
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="formBasic2">
+            <Form.Group controlId="formBasic3">
               <Form.Label>Due Date </Form.Label>
               <Form.Control
                 type="date"
@@ -160,7 +160,7 @@ const AddTaskModal = ({
               />
             </Form.Group>
 
-            <Form.Group controlId="formBasic3">
+            <Form.Group controlId="formBasic4">
               <Form.Label>Supporting Images </Form.Label>
               <div className={"ThumbnailContainer"}>
                 {imageUrls.length > 0
