@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useLocalStorage } from "./CustomHooks";
 import AddTaskModal from "./AddTaskModal";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Board.css";
 
 const Board = () => {
@@ -79,6 +81,17 @@ const Board = () => {
     setShowAddTaskModal(true);
   };
 
+  const setCompleted = (task) => {
+    let updatedTaskList = taskList.map((taskCheck) => {
+      if (task.id === taskCheck.id) {
+        task.completed = !task.completed;
+        return task;
+      }
+      return taskCheck;
+    });
+    setTaskList(updatedTaskList);
+  };
+
   const overDueCheck = (dueDate) => {
     let daysRemaining = getDaysRemaining(dueDate);
     if (daysRemaining > 0) {
@@ -94,12 +107,27 @@ const Board = () => {
     return taskList.map((task, index) => (
       <div
         key={index}
-        onClick={() => editTaskHandler(task)}
+        /*onClick={() => editTaskHandler(task)}*/
         className={overDueCheck(task.dueDate)}
       >
-        <div className={"TaskTitle"}>{`${task.title}  -  ${getDueDateString(
-          task.dueDate
-        )}`}</div>
+        <div className={"TaskTitle"}>
+          {`${task.title}  -  ${getDueDateString(task.dueDate)}`}{" "}
+          <span className={"TaskCompleted"}>
+            <button
+              className={"TaskDetails"}
+              onClick={() => editTaskHandler(task)}
+            >
+              details
+            </button>
+            <input
+              type="checkbox"
+              checked={task.completed}
+              label={"Completed"}
+              onChange={() => setCompleted(task)}
+            />
+            Completed
+          </span>
+        </div>
         <div className={"TaskDesc"}>{task.description}</div>
         {task.supportingImages.length > 0 ? (
           <img
