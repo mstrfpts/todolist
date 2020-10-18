@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useLocalStorage } from "./CustomHooks";
 import AddTaskModal from "./AddTaskModal";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Board.css";
 
 const Board = () => {
@@ -81,6 +79,16 @@ const Board = () => {
     setShowAddTaskModal(true);
   };
 
+  const deleteTask = (taskId) => {
+    let newTaskList = taskList.filter((task) => task.id !== taskId);
+    setTaskList(newTaskList);
+  };
+
+  const taskDeleteHandler = (taskId) => {
+    setShowAddTaskModal(false);
+    deleteTask(taskId);
+  };
+
   const setCompleted = (task) => {
     let updatedTaskList = taskList.map((taskCheck) => {
       if (task.id === taskCheck.id) {
@@ -127,6 +135,12 @@ const Board = () => {
             />
             Completed
           </span>
+          <button
+            className={"TaskClose"}
+            onClick={() => taskDeleteHandler(task.id)}
+          >
+            x
+          </button>
         </div>
         <div className={"TaskDesc"}>{task.description}</div>
         {task.supportingImages.length > 0 ? (
