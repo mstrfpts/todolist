@@ -1,21 +1,36 @@
 import React, { useState } from "react";
 import { useLocalStorage } from "./CustomHooks";
-import TaskModal from "./TaskModal";
+import AddTaskModal from "./AddTaskModal";
 import "./Board.css";
 
 const Board = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showAddTaskModal, setShowAddTaskModal] = useState(false);
+  //const [showTaskModal, setShowTaskModal] = useState(false);
+  const [newTask, setNewTask] = useState(false);
+  const [taskToBeUpdated, setTaskToBeUpdated] = useState();
   const [taskList, setTaskList] = useLocalStorage("taskList", []); //useState([]);
   const handleAddTask = () => {
-    setShowModal(true);
+    setShowAddTaskModal(true);
+    setNewTask(true);
   };
 
-  const AddTask = (task) => {
+  const addTask = (task) => {
     let newTask = {
       ...task,
       id: findFreeId(taskList),
     };
     setTaskList([...taskList, newTask]);
+  };
+
+  const updateTask = (task) => {
+    console.log("derd, in updaate task with", task);
+    let updatedTaskList = taskList.map((taskCheck) => {
+      if (task.id === taskCheck.id) {
+        return task;
+      }
+      return taskCheck;
+    });
+    setTaskList(updatedTaskList);
   };
 
   const findFreeId = (array) => {
@@ -32,14 +47,59 @@ const Board = () => {
     return previousId + 1;
   };
 
+  const getTimeStamp = () => {
+    return `${new Date().getYear() + 1900}-${
+      new Date().getMonth() + 1
+    }-${new Date().getDate()}`;
+  };
+
+  const getDaysRemaining = (dueDate) => {
+    return (
+      (new Date(dueDate).valueOf() - new Date(getTimeStamp()).valueOf()) /
+      86400000
+    );
+  };
+
+  const getDueDateString = (dueDate) => {
+    let daysRemaining = getDaysRemaining(dueDate);
+    let daysString = daysRemaining === 1 ? "day" : "days";
+    if (daysRemaining > 0) {
+      return `${daysRemaining} ${daysString} to go`;
+    } else if (daysRemaining === 0) {
+      return "Due Today!";
+    } else {
+      return `${daysRemaining * -1} ${daysString} Overdue!!!`;
+    }
+  };
+
+  const editTaskHandler = (updateTask) => {
+    setNewTask(false);
+    console.log("derd update task", updateTask);
+    setTaskToBeUpdated(updateTask);
+    setShowAddTaskModal(true);
+  };
+
+  const overDueCheck = (dueDate) => {
+    let daysRemaining = getDaysRemaining(dueDate);
+    if (daysRemaining > 0) {
+      return "Task";
+    } else if (daysRemaining === 0) {
+      return "Task TaskToday";
+    } else {
+      return "Task TaskOverdue";
+    }
+  };
+
   const TaskCards = () => {
     return taskList.map((task, index) => (
       <div
         key={index}
-        /*onClick={() => updateTaskHandler(task)}*/
-        className={"Task"}
+        onClick={() => editTaskHandler(task)}
+        className={overDueCheck(task.dueDate)}
       >
-        <div className={"TaskTitle"}>{task.title}</div>
+        <div className={"TaskTitle"}>{`${task.title}  -  ${getDueDateString(
+          task.dueDate
+        )}`}</div>
         <div className={"TaskDesc"}>{task.description}</div>
         {task.supportingImages.length > 0 ? (
           <img
@@ -62,8 +122,6 @@ const Board = () => {
     ));
   };
 
-  console.log("derd, tasks", taskList);
-
   return (
     <div className={"RootContainer"}>
       <div className={"TaskContainer"}>
@@ -80,10 +138,14 @@ const Board = () => {
           +
         </button>
       </div>
-      <TaskModal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        addTask={AddTask}
+      <AddTaskModal
+        showModal={showAddTaskModal}
+        setShowModal={setShowAddTaskModal}
+        addTask={addTask}
+        updateTask={updateTask}
+        getTimeStamp={getTimeStamp}
+        newTask={newTask}
+        taskToBeUpdated={taskToBeUpdated}
       />
     </div>
   );

@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Form, Modal, Button } from "react-bootstrap";
 
-const TaskModal = ({ showModal, setShowModal, addTask, getTimeStamp }) => {
+const AddTaskModal = ({
+  showModal,
+  setShowModal,
+  addTask,
+  updateTask,
+  getTimeStamp,
+  newTask,
+  taskToBeUpdated,
+}) => {
   const [imageUrls, setImageUrls] = useState([]);
   const [validated, setValidated] = useState(false);
   //const [startDate, setStartDate] = useState(new Date());
-
-  useEffect(() => {
-    setTaskDetails({ ...taskDetails, supportingImages: imageUrls });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imageUrls]);
+  console.log("derd, newTask", newTask);
+  console.log("derd, newTask", taskToBeUpdated);
 
   const initialTaskDetails = {
     title: "",
@@ -19,6 +24,29 @@ const TaskModal = ({ showModal, setShowModal, addTask, getTimeStamp }) => {
     supportingImages: [],
   };
   const [taskDetails, setTaskDetails] = useState(initialTaskDetails);
+
+  useEffect(() => {
+    if (!newTask && typeof taskToBeUpdated !== "undefined") {
+      setTaskDetails({
+        title: taskToBeUpdated.title,
+        description: taskToBeUpdated.description,
+        dueDate: taskToBeUpdated.dueDate,
+        complete: taskToBeUpdated.complete,
+        id: taskToBeUpdated.id,
+        supportingImages: taskToBeUpdated.supportingImages,
+      });
+      setImageUrls(taskToBeUpdated.supportingImages);
+    } else {
+      setTaskDetails(initialTaskDetails);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskToBeUpdated, newTask, showModal]);
+
+  useEffect(() => {
+    setTaskDetails({ ...taskDetails, supportingImages: imageUrls });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imageUrls]);
+
   const handleClose = () => {
     setTaskDetails(initialTaskDetails);
     setShowModal(false);
@@ -45,6 +73,11 @@ const TaskModal = ({ showModal, setShowModal, addTask, getTimeStamp }) => {
     setTaskDetails({ ...taskDetails, dueDate: event.target.value });
   };
 
+  const taskCompleteCheckboxHandler = (event) => {
+    setTaskDetails({ ...taskDetails, complete: event.target.checked });
+    console.log("derd, checkbox", taskDetails);
+  };
+
   const handleChange = (event) => {
     setImageUrls([...imageUrls, URL.createObjectURL(event.target.files[0])]);
   };
@@ -57,22 +90,25 @@ const TaskModal = ({ showModal, setShowModal, addTask, getTimeStamp }) => {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      addTask(taskDetails);
+      newTask ? addTask(taskDetails) : updateTask(taskDetails);
       setTaskDetails(initialTaskDetails);
       handleClose();
     }
     setValidated(true);
   };
+  console.log("derd, newTask", taskDetails.complete);
 
   return (
     <Modal show={showModal} onHide={handleClose}>
       <div className={"ModalHeader"}>
         <Modal.Header>
-          <Modal.Title>New Task</Modal.Title>
+          <Modal.Title>{newTask ? "New Task" : "View Task"}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          Please enter you task details in the below fields
+          {`Please ${
+            newTask ? `enter` : `View/edit`
+          } you task details in the below fields`}
         </Modal.Body>
 
         <div className={"ModalBody"}>
@@ -115,12 +151,21 @@ const TaskModal = ({ showModal, setShowModal, addTask, getTimeStamp }) => {
               />
             </Form.Group>
 
+            <Form.Group controlId="formBasicCheckbox">
+              <Form.Check
+                type="checkbox"
+                checked={taskDetails.complete}
+                label={"Complete"}
+                onChange={(e) => taskCompleteCheckboxHandler(e)}
+              />
+            </Form.Group>
+
             <Form.Group controlId="formBasic3">
               <Form.Label>Supporting Images </Form.Label>
               <div className={"ThumbnailContainer"}>
                 {imageUrls.length > 0
                   ? imageUrls.map((image, index) => (
-                      <>
+                      <span key={index}>
                         <img
                           key={`img ${index}`}
                           style={{
@@ -138,7 +183,7 @@ const TaskModal = ({ showModal, setShowModal, addTask, getTimeStamp }) => {
                         >
                           X
                         </button>
-                      </>
+                      </span>
                     ))
                   : null}
               </div>
@@ -159,4 +204,4 @@ const TaskModal = ({ showModal, setShowModal, addTask, getTimeStamp }) => {
   );
 };
 
-export default TaskModal;
+export default AddTaskModal;
