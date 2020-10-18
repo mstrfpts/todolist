@@ -1,30 +1,45 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-const TaskModal = ({ showTaskModal, setShowTaskModal, task }) => {
+const TaskModal = ({ showModal, setShowModal, task }) => {
   const handleClose = () => {
-    console.log("derd handle close");
-    setShowTaskModal(false);
+    setShowModal(false);
   };
 
-  console.log("derd close", showTaskModal);
-
-  return (
-    <Modal show={showTaskModal} onHide={handleClose}>
+  return showModal ? (
+    <Modal show={showModal} onHide={handleClose}>
       <div className={"ModalHeader"}>
         <Modal.Header>
           <Modal.Title>{task.title}</Modal.Title>
         </Modal.Header>
+        <div className={"ModalBody"}>
+          <Modal.Body>{task.description}</Modal.Body>
 
-        <Modal.Body>{task.description}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
+          {task.supportingImages.length > 0
+            ? task.supportingImages.map((image, index) => (
+                <span key={index}>
+                  <img
+                    key={`img ${index}`}
+                    style={{
+                      height: "100px",
+                      width: "100px",
+                      marginRight: "10px",
+                    }}
+                    src={image}
+                    alt={image}
+                  />
+                </span>
+              ))
+            : null}
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </div>
       </div>
     </Modal>
-  );
+  ) : null;
 };
 
 export default TaskModal;

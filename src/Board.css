@@ -68,6 +68,12 @@
   background-color: #ea4c4c;
 }
 
+.TaskDueDate {
+  /*font-size: large;*/
+  right: 45%;
+  position: absolute;
+}
+
 .TaskCompleted {
   position: absolute;
   right: 50px;
@@ -81,12 +87,14 @@
 }
 
 .TaskDetails {
-  height: 20px;
-  width: 50px;
+  margin-left: 10px;
   margin-right: 5px;
+  height: 15px;
+  width: 50px;
   font-size: xx-small;
   padding: 0;
   border: none;
+  border-radius: 5px;
 }
 
 .TaskClose {

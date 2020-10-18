@@ -13,8 +13,6 @@ const AddTaskModal = ({
   const [imageUrls, setImageUrls] = useState([]);
   const [validated, setValidated] = useState(false);
   //const [startDate, setStartDate] = useState(new Date());
-  console.log("derd, newTask", newTask);
-  console.log("derd, newTask", taskToBeUpdated);
 
   const initialTaskDetails = {
     title: "",
@@ -75,7 +73,6 @@ const AddTaskModal = ({
 
   const taskCompleteCheckboxHandler = (event) => {
     setTaskDetails({ ...taskDetails, complete: event.target.checked });
-    console.log("derd, checkbox", taskDetails);
   };
 
   const handleChange = (event) => {
@@ -96,7 +93,6 @@ const AddTaskModal = ({
     }
     setValidated(true);
   };
-  console.log("derd, newTask", taskDetails.complete);
 
   return (
     <Modal show={showModal} onHide={handleClose}>

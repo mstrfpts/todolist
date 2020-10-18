@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useLocalStorage } from "./CustomHooks";
 import AddTaskModal from "./AddTaskModal";
+import TaskModal from "./TaskModal";
 import "./Board.css";
 
 const Board = () => {
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
-  //const [showTaskModal, setShowTaskModal] = useState(false);
+  const [showTaskModal, setShowTaskModal] = useState(false);
   const [newTask, setNewTask] = useState(false);
   const [taskToBeUpdated, setTaskToBeUpdated] = useState();
   const [taskList, setTaskList] = useLocalStorage("taskList", []); //useState([]);
@@ -23,7 +24,6 @@ const Board = () => {
   };
 
   const updateTask = (task) => {
-    console.log("derd, in updaate task with", task);
     let updatedTaskList = taskList.map((taskCheck) => {
       if (task.id === taskCheck.id) {
         return task;
@@ -72,9 +72,14 @@ const Board = () => {
     }
   };
 
+  const viewTaskHandler = (viewTask) => {
+    setNewTask(false);
+    setTaskToBeUpdated(viewTask);
+    setShowTaskModal(true);
+  };
+
   const editTaskHandler = (updateTask) => {
     setNewTask(false);
-    console.log("derd update task", updateTask);
     setTaskToBeUpdated(updateTask);
     setShowAddTaskModal(true);
   };
@@ -120,13 +125,23 @@ const Board = () => {
           className={overDueCheck(task.dueDate)}
         >
           <div className={"TaskTitle"}>
-            {`${task.title}  -  ${getDueDateString(task.dueDate)}`}{" "}
+            {`${task.title}`}
+            <button
+              className={"TaskDetails"}
+              onClick={() => viewTaskHandler(task)}
+            >
+              view
+            </button>
+
+            <span className={"TaskDueDate"}>
+              {` ${getDueDateString(task.dueDate)} `}
+            </span>
             <label className={"TaskCompleted"}>
               <button
                 className={"TaskDetails"}
                 onClick={() => editTaskHandler(task)}
               >
-                details
+                edit
               </button>
               <input
                 className={"TaskCompletedCheckbox"}
@@ -156,12 +171,11 @@ const Board = () => {
               }}
             />
           ) : null}
-          {/*<button
-          className={"TaskClose"}
-          onClick={() => taskDeleteHandler(task.id)}
-        >
-          x
-        </button>*/}
+          <TaskModal
+            showModal={showTaskModal}
+            setShowModal={setShowTaskModal}
+            task={taskToBeUpdated}
+          />
         </div>
       );
     });
