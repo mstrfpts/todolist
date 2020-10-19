@@ -3,15 +3,17 @@
   flex-direction: column;
   justify-content: center;
   min-width: 600px;
+  margin-left: 80px;
 }
 
 .Navbar {
+  position: absolute;
   display: flex;
   flex-direction: column;
-  margin: 10px;
-  padding-left: 10px;
+  padding-left: 16px;
   background-color: lightsteelblue;
-  width: 70px;
+  width: 80px;
+  height: 100vh;
 }
 .TaskContainer {
   max-height: 70vh;
